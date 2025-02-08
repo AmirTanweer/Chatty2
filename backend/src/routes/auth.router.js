@@ -1,7 +1,7 @@
 const express=require('express')
 const router=express.Router();
-
-const {login ,signup,logout}=require('../controllers/auth.controller')
+const authentication=require('../middleware/authentication')
+const {login ,signup,logout,updateProfile,checkAuth}=require('../controllers/auth.controller')
 const {body }=require('express-validator')
 router.post('/login',login);
 router.post('/signup',
@@ -13,6 +13,10 @@ router.post('/signup',
             .withMessage('Password must be at least 6 characters long'),
     ], signup)
 router.post('/logout',logout)
+
+router.put("/update-profile",authentication,updateProfile)
+
+router.get("/check",authentication,checkAuth)
 
 module.exports=router
 
